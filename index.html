@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch</title>
+    <style>
+      body {
+        font-family: Arial;
+      }
+      .time {
+        font-size: 35px;
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        background-image: linear-gradient(to right, navy 20%, teal 55%);
+      }
+      .icons-container {
+        margin: 20px auto;
+        width: 135px;
+      }
+      .heading {
+        font-size: 45px;
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        background-image: linear-gradient(to right, navy 20%, teal 55%);
+      }
+      #play-pause-icon {
+        height: 65px;
+        width: 65px;
+        fill: navy;
+        transition: 0.25s;
+        border-radius: 100%;
+      }
+      #play-pause-icon:hover,
+      #reset-icon:hover {
+        fill: white;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(
+          to right,
+          rgba(0, 0, 128, 0.804) 0%,
+          teal 80%
+        );
+      }
+      #reset-icon {
+        height: 65px;
+        width: 65px;
+        transition: 0.2s;
+        border-radius: 100%;
+        fill: teal;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="heading">Stopwatch</p>
+    <div class="time">00 : 00 : 00 : 00</div>
+    <div class="icons-container">
+      <svg
+        id="play-pause-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 -960 960 960"
+      >
+        <path
+          d="M200-332v-296l220 148-220 148Zm340 12v-320h60v320h-60Zm160 0v-320h60v320h-60Z"
+        />
+      </svg>
+      <svg
+        id="reset-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 -5 25 35"
+        x="0px"
+        y="0px"
+      >
+        <path
+          d="M12,3A8.92277,8.92277,0,0,0,4.5,7.05823V5H3v5H8V8.5H5.38165A7.4775,7.4775,0,1,1,4.5,12H3a9,9,0,1,0,9-9Z"
+        />
+      </svg>
+    </div>
+    <script>
+      let hours = 0;
+      let minutes = 0;
+      let seconds = 0;
+      let milliseconds = 0;
+      let turn = 0;
+      let time = document.querySelector(".time");
+      let playPauseButton = document.getElementById("play-pause-icon");
+      let resetButton = document.getElementById("reset-icon");
+
+      function play() {
+        turn++;
+        let intervalID = setInterval(() => {
+          if (turn % 2 !== 0) {
+            milliseconds++;
+            if (milliseconds === 99) {
+              milliseconds = 0;
+              seconds++;
+            }
+
+            if (seconds === 59 && milliseconds === 90) {
+              minutes++;
+              seconds = milliseconds = 0;
+            }
+
+            if (minutes === 59 && seconds === 59 && milliseconds > 80) {
+              hours++;
+              minutes = seconds = milliseconds = 0;
+            }
+
+            if (
+              hours === 23 &&
+              minutes === 59 &&
+              seconds === 59 &&
+              milliseconds > 70
+            ) {
+              reset();
+            }
+            if (
+              hours < 10 &&
+              minutes < 10 &&
+              seconds < 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `0${hours} : 0${minutes} : 0${seconds} : 0${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes < 10 &&
+              seconds < 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `0${hours} : 0${minutes} : 0${seconds} : ${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes < 10 &&
+              seconds >= 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `0${hours} : 0${minutes} : ${seconds} : 0${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes < 10 &&
+              seconds >= 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `0${hours} : 0${minutes} : ${seconds} : ${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes >= 10 &&
+              seconds < 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `0${hours} : ${minutes} : 0${seconds} : 0${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes >= 10 &&
+              seconds < 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `0${hours} : ${minutes} : 0${seconds} : ${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes >= 10 &&
+              seconds >= 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `0${hours} : ${minutes} : ${seconds} : 0${milliseconds} `;
+            } else if (
+              hours < 10 &&
+              minutes >= 10 &&
+              seconds >= 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `0${hours} : ${minutes} : ${seconds} : ${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes < 10 &&
+              seconds < 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `${hours} : 0${minutes} : 0${seconds} : 0${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes < 10 &&
+              seconds < 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `${hours} : 0${minutes} : 0${seconds} : ${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes < 10 &&
+              seconds >= 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `${hours} : 0${minutes} : ${seconds} : 0${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes < 10 &&
+              seconds >= 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `${hours} : 0${minutes} : ${seconds} : ${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes >= 10 &&
+              seconds < 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `${hours} : ${minutes} : 0${seconds} : 0${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes >= 10 &&
+              seconds < 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `${hours} : ${minutes} : 0${seconds} : ${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes >= 10 &&
+              seconds >= 10 &&
+              milliseconds < 10
+            ) {
+              time.innerHTML = `${hours} : ${minutes} : ${seconds} : 0${milliseconds} `;
+            } else if (
+              hours >= 10 &&
+              minutes >= 10 &&
+              seconds >= 10 &&
+              milliseconds >= 10
+            ) {
+              time.innerHTML = `${hours} : ${minutes} : ${seconds} : ${milliseconds} `;
+            }
+          } else if (turn % 2 == 0) {
+            clearInterval(intervalID);
+          }
+        }, 10);
+      }
+
+      function reset() {
+        hours = minutes = seconds = milliseconds = 0;
+        time.innerHTML = `0${hours} : 0${minutes} : 0${seconds} : 0${milliseconds}`;
+      }
+      resetButton.addEventListener("click", () => {
+        reset();
+      });
+      playPauseButton.addEventListener("click", play);
+    </script>
+  </body>
+</html>
